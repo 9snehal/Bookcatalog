@@ -1,15 +1,15 @@
 # BookCatalog Project
 
-#About
+# About
 This application provides a list of Books within a variety of categories as well as provide a user registration and authentication system. Registered users will have the ability to create, edit, and delete their own items.
 
-#Features
+# Features
 Proper authentication and authorisation check.
 Full CRUD support using SQLAlchemy and Flask.
 JSON endpoints.
 Implements oAuth using Google Sign-in API.
 
-#Project Structure
+# Project Structure
 .
 ├── final.py:-Main file to run the project
 ├── client_secrets.json
@@ -39,7 +39,7 @@ Implements oAuth using Google Sign-in API.
     └── publicitem.html
     
 
-#Steps to run this project
+# Steps to run this project
 1.Install the VM and Vagrant:
 This project uses a virtual machine (VM) to run a SQL database server.
 
@@ -70,7 +70,7 @@ Alternately, you can use Github to fork and clone the repository https://github.
 8.Log into the VM with 
         vagrant ssh
 
-#How to run this project 
+# How to run this project 
 1.Download or Clone this repository to your local drive:
         https://github.com/9snehal/Bookcatalog
 
