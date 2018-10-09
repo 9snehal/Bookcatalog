@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html>
+  <body>
+    <nav class="navbar navbar-inverse" style="height: 150px">
+  <div class="container-fluid">
+    <div class="media">
+       <div class="media-left">
+         <div class="navbar-header">
+           <li><img class="logo" src="{{ url_for('static', filename='img/book.jpeg') }}"></li>
+         </div>
+         <div class="media-body">
+           <li><a class="navbar-brand" href="{{url_for('showCatalog')}}" style="margin-left: 15px; margin-top: 30px; font-size: 45px; font-family: cursive">Book Catalog</a></li>
+         <ul class="nav navbar-nav navbar-right" style="margin-right: 20px">
+             {%if 'username' not in session %}
+           <li style="font-size: 35px; font-family: cursive; margin-top:7px"><a href="{{url_for('showLogin')}}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+           {% else %}
+           {% if session.user_id %}
+            <li>
+            <div class="dropdown" style="margin-bottom:30px">
+             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+               <img src="{{ session['picture']}}" alt="profile image" style="border-radius:50%; height:80px; width:120px" class="navbar-profile-image image-responsive pull-left">
+               <span class="caret"></span>
+             </button>
+             <ul class="dropdown-menu">
+              <li class="dropdown-header" style="font-size: 18px"><a href="{{url_for('disconnect')}}">Logout: {{ session['email']}}</a></li>
+             </ul>
+            </div>
+            </li>
+          {% endif %}
+        {% endif %}
+      </ul>
+       </div>
+       </div>
+    </div>
+  </div>
+</nav>
+
+<div class="row" style="background-color:#660099">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+             <li> <strong> {{ message }} </strong> </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+  </div>
+</body>
+</html>

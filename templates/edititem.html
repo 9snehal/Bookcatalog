@@ -1,0 +1,48 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+<div class="card card-section item-info-card">
+	<div class="row banner menu">
+		<div class="col-md-12 padding-none">
+			<h1>Edit Book Item</h1>
+			<hr>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12 padding-top">
+<form action="{{url_for('editItem' ,categories_id=categories_id, items_id=items_id, item=editedItem)}}"
+  method="POST">
+  	<div class="form-group">
+  <label for="name">Name:</label>
+  <input type="text" size="30" name="name" class="form-control"  placeholder = '{{item.name}}'>
+  <label for="description">Description:</label>
+  <input type="text" size="30"  name="description" class="form-control" placeholder = '{{item.description}}'>
+  <label for="price">price:</label>
+  <input type="text" size="30"  name="price" class="form-control" placeholder = '{{item.price}}'>
+  <label for="Category">Book Category:</label>
+  <select class="form-control"  name="categories_id">
+    <option value="" selected="selected"></option>
+    <option value=1 >Science Fiction</option>
+    <option value=2 >Drama</option>
+    <option value=3 >Action and Adventure</option>
+    <option value=4 >Mystery</option>
+    <option value=5 >CookBooks</option>
+    <option value=6 >Biography</option>
+    <option value=7 >Self Help</option>
+    <option value=8 >Poetry Book</option>
+    <option value=9 >Comics</option>
+    <option value=10 >Yoga</option>
+  </select>
+  </br></br>
+  <button type="submit" class="btn btn-success" id="submit" type="submit">
+					<span class="glyphicon glyphicon-glass" aria-hidden="true"></span>Update</button>
+					<button class="btn btn-default delete">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						 <a href = "{{url_for('showItem',categories_id=categories_id, items_id=items_id)}}">
+							Cancel
+						</a>
+					</button>
+</form>
+{% endblock %}
+</body>
+</html>

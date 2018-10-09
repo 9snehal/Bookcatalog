@@ -1,0 +1,111 @@
+body {
+  background-color: #f5f5f5;
+  background-image: url("../img/ssss.jpeg");
+  font-family: 'Lora', serif;
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: .02em;
+  overflow-x: hidden;
+}
+
+.divider {
+	height: 15px;
+}
+.divider.blue {
+	background-color: #42C3C9;
+}
+.divider.green {
+	background-color: #9FB80A;
+}
+
+.banner.menu {
+	height: 120px;
+	position: relative;
+	border: 2px solid green;
+	background-color: #E1E17F;
+}
+.banner.profile {
+	height: 150px;
+	background-color: #A6E8EB;
+}
+.banner h1 {
+	margin: 45px 0;
+}
+
+.creator {
+	padding-right: 20px;
+	margin-top: -20px;
+	text-align: right;
+	float:right;
+}
+
+
+.navbar-header .logo{
+	height: 90px;
+	width: 120px;
+	margin-top: 15px;
+	border-radius: 50%;
+}
+
+li{
+	margin-left: 15px;
+	margin-top: -4px;
+	font-size: 18px;
+	font-family: cursive;
+}
+.card {
+  background: #fff;
+	border: 2px solid green;
+  border-radius: 2px;
+	min-height: 100px;
+  margin: 0 1rem 2rem 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+.name {
+	padding: 0;
+}
+
+.editdeletepane {
+	padding-bottom: 1rem;
+}
+
+.item-description {
+	padding: 0 1rem;
+}
+
+.item-info-card {
+	padding: 1rem;
+}
+
+.detail-card {
+	margin: 0;
+}
+.table table-border{
+		border: 2px solid black;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown button{
+	margin-top: 0px;
+	height: 90px;
+	width: 150px;
+}
+
+.logout {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.dropdown:hover .logout {
+    display: block;
+}

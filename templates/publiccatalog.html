@@ -1,0 +1,44 @@
+
+<html>
+<head>
+<body>
+
+ </div>
+ {% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+<div class="well" style="border: 2px solid #cbb">
+  <table class="table table-border" style="border: 2px solid #660099">
+    <thead>
+      <tr>
+        <th><h2>Categories</h2> </th>
+        <th>  <h2>Recent Added</h2></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+  <ul class="list-group">
+    {% for i in categories %}
+    <li class="list-group-item">
+      <a href = "{{url_for('showCategories', categories_id = i.id)}}" style="color:black">{{i.name}}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</td>
+<td>
+  <ul class="list-group">
+    {% for i in items %}
+    <li class="list-group-item">
+      <a href = "{{url_for('showItem',categories_id=i.categories_id, items_id=i.id)}}"style="color:black">{{i.name}} - {{i.categories.name}}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+{% endblock %}
+</body>
+</html>

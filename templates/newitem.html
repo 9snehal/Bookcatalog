@@ -1,0 +1,57 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+<div class="card card-section item-info-card">
+	<div class="row banner menu">
+		<div class="col-md-12 padding-none">
+			<h1>New Catalog Item</h1>
+		<hr>
+		</div>
+	</div>
+  <div class="row">
+		<div class="col-md-12 padding-top">
+	<form action="{{url_for('newItem')}}"
+  method="POST">
+  <div class="form-group">
+    <label for="name">Name:</label>
+					<input type ="text" maxlength="50" class="form-control" name="name" placeholder="Name of the item">
+        </br>
+					<label for="description">Description:</label>
+					<textarea class="form-control" maxlength="250" rows="3" name="description" placeholder="Description of the item"></textarea>
+         </br>
+          <label for="price">Price:</label>
+          					<div class="input-group">
+          						<div class="input-group-addon">$</div>
+          						<input type ="text" class="form-control" maxlength="10" name="price" placeholder="Price in $">
+          					</div>
+                  </br>
+  <label for ="Category">Book Category:</label>
+  <select class="form-control" name="categories_id">
+		<option value=1 >Science Fiction</option>
+		<option value=2 >Drama</option>
+		<option value=3 >Action and Adventure</option>
+		<option value=4 >Mystery</option>
+		<option value=5 >CookBooks</option>
+		<option value=6 >Biography</option>
+		<option value=7 >Self Help</option>
+		<option value=8 >Poetry Book</option>
+		<option value=9 >Comics</option>
+		<option value=10 >Yoga</option>
+  </select>
+  </br>
+  <button type="submit" class="btn btn-success" id="submit" type="submit">
+					<span class="glyphicon glyphicon-glass" aria-hidden="true"></span>Create</button>
+          <button class="btn btn-default delete">
+          						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          						<a href = "{{ url_for('showCatalog') }}">
+          							Cancel
+          						</a>
+          					</button>
+  </br>
+</form>
+</div>
+</div>
+</div>
+{% endblock %}
+</body>
+</html>
