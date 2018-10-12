@@ -1,6 +1,4 @@
-#===================
 # Imports
-#===================
 from flask import Flask, render_template, request, redirect
 from flask import jsonify, url_for, flash, g
 from sqlalchemy import create_engine, asc
@@ -8,7 +6,8 @@ from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Categories, CategoryItem, User
 from flask import session as login_session
 from functools import wraps
-import random,os
+import random
+import os
 import string
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
@@ -17,26 +16,24 @@ import json
 from flask import make_response
 import requests
 
-#===================
+
 # Flask instance
-#===================
 app = Flask(__name__)
 
-#===================
 # GConnect CLIENT_ID
-#===================
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Catalog Application"
 
-#===================
+
 # DB
 # Connect to database
-engine = create_engine('sqlite:///catalogs.db' ,connect_args={'check_same_thread': False})
+engine = create_engine('sqlite:///catalogs.db', connect_args={'check_same_thread': False})
 Base.metadata.bind = engine
 # Create session
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
+
 
 # Login-Create anti-forgery state token
 @app.route('/login')
@@ -47,6 +44,7 @@ def showLogin():
     # return "The current session state is %s" % login_session['state']
     return render_template('login.html', STATE=state)
 
+
 # fblogin
 @app.route('/fbconnect', methods=['POST'])
 def fbconnect():
@@ -56,8 +54,6 @@ def fbconnect():
         return response
     access_token = request.data
     print "access token received %s " % access_token
-
-
     app_id = json.loads(open('fb_client_secrets.json', 'r').read())[
         'web']['app_id']
     app_secret = json.loads(
@@ -66,15 +62,15 @@ def fbconnect():
         app_id, app_secret, access_token)
     h = httplib2.Http()
     result = h.request(url, 'GET')[1]
-
-
     # Use token to get user info from API
     userinfo_url = "https://graph.facebook.com/v2.8/me"
     '''
-        Due to the formatting for the result from the server token exchange we have to
-        split the token first on commas and select the first index which gives us the key : value
-        for the server access token then we split it on colons to pull out the actual token value
-        and replace the remaining quotes with nothing so that it can be used directly in the graph
+        Due to the formatting for the result from the server token exchange,\
+        we have to split the token first on commas and select the,\
+        first index which gives us the key : value for the server,\
+        access token then we split it on colons to pull out the,\
+        actual token value and replace the remaining quotes with,\
+        nothing so that it can be used directly in the graph,\
         api calls
     '''
     token = result.split(',')[0].split(':')[1].replace('"', '')
@@ -119,16 +115,18 @@ def fbconnect():
     flash("Now logged in as %s" % login_session['username'])
     return output
 
+
 # fbdisconnect
 @app.route('/fbdisconnect')
 def fbdisconnect():
     facebook_id = login_session['facebook_id']
     # The access token must me included to successfully logout
     access_token = login_session['access_token']
-    url = 'https://graph.facebook.com/%s/permissions?access_token=%s' % (facebook_id,access_token)
+    url = 'https://graph.facebook.com/%s/permissions?access_token=%s' % (facebook_id, access_token)
     h = httplib2.Http()
     result = h.request(url, 'DELETE')[1]
     return "you have been logged out"
+
 
 # gconnect
 @app.route('/gconnect', methods=['POST'])
@@ -225,6 +223,7 @@ def gconnect():
     print "done!"
     return output
 
+
 # User Helper Functions
 
 
@@ -251,9 +250,8 @@ def getUserID(email):
     except:
         return None
 
+
 # DISCONNECT - Revoke a current user's token and reset their login_session
-
-
 @app.route('/gdisconnect')
 def gdisconnect():
     # Only disconnect a connected user.
@@ -362,7 +360,7 @@ def showCategories(categories_id):
     session.commit()
     itemsCount = session.query(CategoryItem).filter_by(categories_id=categories.id).count()
     return render_template('category.html', categories=categories, items=items,
-                           allcategories=allcategories, itemsCount=itemsCount )
+                           allcategories=allcategories, itemsCount=itemsCount)
 
 
 # Show the specific item and the description of it
@@ -378,9 +376,10 @@ def showItem(categories_id, items_id):
             items.user_id != login_session['user_id']:
         # make sure user logined and user is the creator
         return render_template('publicitem.html', categories=categories,
-                               items=items,creator=creator)
+                               items=items, creator=creator)
     else:  # if user is the creator, able to access update and delete the item
-        return render_template('item.html', categories=categories, items=items,creator=creator)
+        return render_template('item.html', categories=categories,
+                               items=items, creator=creator)
 
 
 # Edit the specific item
@@ -437,6 +436,7 @@ def deleteItem(categories_id, items_id):
         return render_template('deleteitem.html', categories_id=categories_id,
                                items_id=items_id, item=itemToDelete)
 
+
 # Disconnect based on provider
 @app.route('/disconnect')
 def disconnect():
@@ -459,11 +459,13 @@ def disconnect():
         flash("You were not logged in")
         return redirect(url_for('showCatalog'))
 
+
 # url_for static path processor
 # remove when deployed
 @app.context_processor
 def override_url_for():
     return dict(url_for=dated_url_for)
+
 
 def dated_url_for(endpoint, **values):
     if endpoint == 'static':
