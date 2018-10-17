@@ -28,7 +28,8 @@ APPLICATION_NAME = "Catalog Application"
 
 # DB
 # Connect to database
-engine = create_engine('sqlite:///catalogs.db', connect_args={'check_same_thread': False})
+engine = create_engine('sqlite:///catalogs.db',
+                       connect_args={'check_same_thread': False})
 Base.metadata.bind = engine
 # Create session
 DBSession = sessionmaker(bind=engine)
@@ -58,8 +59,10 @@ def fbconnect():
         'web']['app_id']
     app_secret = json.loads(
         open('fb_client_secrets.json', 'r').read())['web']['app_secret']
-    url = 'https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=%s&client_secret=%s&fb_exchange_token=%s' % (
-        app_id, app_secret, access_token)
+    url1 = 'https://graph.facebook.com/oauth/access_token?'\
+           'grant_type=fb_exchange_token&client_id=%s'\
+           '&client_secret=%s&fb_exchange_token=%s'
+    url = url1 % (app_id, app_secret, access_token)
     h = httplib2.Http()
     result = h.request(url, 'GET')[1]
     # Use token to get user info from API
@@ -75,7 +78,9 @@ def fbconnect():
     '''
     token = result.split(',')[0].split(':')[1].replace('"', '')
 
-    url = 'https://graph.facebook.com/v2.8/me?access_token=%s&fields=name,id,email' % token
+    url1 = 'https://graph.facebook.com/v2.8/me?'\
+           'access_token=%s&fields=name,id,email'
+    url = url1 % token
     h = httplib2.Http()
     result = h.request(url, 'GET')[1]
     # print "url sent for API access:%s"% url
@@ -90,7 +95,9 @@ def fbconnect():
     login_session['access_token'] = token
 
     # Get user picture
-    url = 'https://graph.facebook.com/v2.8/me/picture?access_token=%s&redirect=0&height=200&width=200' % token
+    url1 = 'https://graph.facebook.com/v2.8/me/picture?'\
+           'access_token=%s&redirect=0&height=200&width=200'
+    url = url1 % token
     h = httplib2.Http()
     result = h.request(url, 'GET')[1]
     data = json.loads(result)
@@ -110,7 +117,8 @@ def fbconnect():
     output += '!</h1>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;\
+             -webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
 
     flash("Now logged in as %s" % login_session['username'])
     return output
@@ -122,7 +130,8 @@ def fbdisconnect():
     facebook_id = login_session['facebook_id']
     # The access token must me included to successfully logout
     access_token = login_session['access_token']
-    url = 'https://graph.facebook.com/%s/permissions?access_token=%s' % (facebook_id, access_token)
+    url1 = 'https://graph.facebook.com/%s/permissions?access_token=%s'
+    url = url1 % (facebook_id, access_token)
     h = httplib2.Http()
     result = h.request(url, 'DELETE')[1]
     return "you have been logged out"
@@ -181,7 +190,7 @@ def gconnect():
     stored_access_token = login_session.get('access_token')
     stored_gplus_id = login_session.get('gplus_id')
     if stored_access_token is not None and gplus_id == stored_gplus_id:
-        response = make_response(json.dumps('Current user is already connected.'),
+        response = make_response(json.dumps('Current user already connected'),
                                  200)
         response.headers['Content-Type'] = 'application/json'
         return response
@@ -218,15 +227,14 @@ def gconnect():
     output += '!</h1>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;\
+              -webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
     flash("you are now logged in as %s" % login_session['username'])
     print "done!"
     return output
 
 
 # User Helper Functions
-
-
 def createUser(login_session):
     newUser = User(name=login_session['username'], email=login_session[
                    'email'], picture=login_session['picture'])
@@ -243,15 +251,13 @@ def getUserInfo(user_id):
 
 
 def getUserID(email):
-    try:
         user = session.query(User).filter_by(email=email).one()
         session.commit()
         return user.id
-    except:
-        return None
 
 
 # DISCONNECT - Revoke a current user's token and reset their login_session
+# to disconnect from google login
 @app.route('/gdisconnect')
 def gdisconnect():
     # Only disconnect a connected user.
@@ -269,7 +275,8 @@ def gdisconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
     else:
-        response = make_response(json.dumps('Failed to revoke token for given user.', 400))
+        response = make_response(json.dumps('Failed to revoke token for\
+                                 given user.', 400))
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -358,7 +365,8 @@ def showCategories(categories_id):
     session.commit()
     items = session.query(CategoryItem).filter_by(categories_id=categories.id)
     session.commit()
-    itemsCount = session.query(CategoryItem).filter_by(categories_id=categories.id).count()
+    itemsCount = session.query(CategoryItem).\
+        filter_by(categories_id=categories.id).count()
     return render_template('category.html', categories=categories, items=items,
                            allcategories=allcategories, itemsCount=itemsCount)
 
