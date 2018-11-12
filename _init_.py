@@ -22,13 +22,13 @@ app = Flask(__name__)
 
 # GConnect CLIENT_ID
 CLIENT_ID = json.loads(
-    open('client_secrets.json', 'r').read())['web']['client_id']
+    open('/var/www/FlaskApp/FlaskApp/client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Catalog Application"
 
 
 # DB
 # Connect to database
-engine = create_engine('sqlite:///catalogs.db',
+engine = create_engine('sqlite:///var/www/FlaskApp/FlaskApp/catalogs.db',
                        connect_args={'check_same_thread': False})
 Base.metadata.bind = engine
 # Create session
@@ -150,7 +150,7 @@ def gconnect():
 
     try:
         # Upgrade the authorization code into a credentials object
-        oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
+        oauth_flow = flow_from_clientsecrets('/var/www/FlaskApp/FlaskApp/client_secrets.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:

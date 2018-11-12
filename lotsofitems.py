@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Categories, CategoryItem, User
 
 # Create database and create a shortcut for easier to update database
-engine = create_engine('sqlite:///catalogs.db')
+engine = create_engine('sqlite:///var/www/FlaskApp/FlaskApp/catalogs.db')
 # Bind the engine to the metadata of the Base class so that the
 # declaratives can be accessed through a DBSession instance
 Base.metadata.bind = engine

@@ -62,7 +62,7 @@ class CategoryItem(Base):
             'price': self.price,
         }
 
-engine = create_engine('sqlite:///catalogs.db')
+engine = create_engine('sqlite:///var/www/FlaskApp/FlaskApp/catalogs.db')
 
 
 Base.metadata.create_all(engine)
