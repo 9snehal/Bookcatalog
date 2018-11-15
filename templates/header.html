@@ -11,6 +11,8 @@
          </div>
          <div class="media-body">
            <li><a class="navbar-brand" href="{{url_for('showCatalog')}}" style="margin-left: 15px; margin-top: 30px; font-size: 45px; font-family: cursive">Book Catalog</a></li>
+           <ul class="nav navbar-nav">
+           <li><a href="{{url_for('showCatalog')}}" style="margin-top:15px; margin-left:270px; font-size: 45px; font-family: cursive;">Home</a></li></ul>
          <ul class="nav navbar-nav navbar-right" style="margin-right: 20px">
              {%if 'username' not in session %}
            <li style="font-size: 35px; font-family: cursive; margin-top:7px"><a href="{{url_for('showLogin')}}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
